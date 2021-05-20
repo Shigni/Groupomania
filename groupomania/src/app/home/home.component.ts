@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
           }
         );
       }
-    );
-    this.user_id = this.auth.getUserId();*/
+    );*/
+    this.user_id = this.auth.getUserId();
   }
 
   myProfile() {

@@ -5,6 +5,7 @@ const Sequelize = require('sequelize')
 // Database connection pool managed by Sequelize.
 const sequelize = require('../utils/database')
 
+  
 // Define method takes two arrguments
 // 1st - name of table
 // 2nd - columns inside the table
@@ -28,12 +29,13 @@ const PostMessage = sequelize.define('postMessage', {
         primaryKey:true
     },
   
-    content: { type: Sequelize.STRING, allowNull:false },
-    likes: { type: Sequelize.INTEGER, required: true },
-    dislikes: { type: Sequelize.INTEGER, required: true },
-    usersLiked: { type: Sequelize.STRING, required: true },
-    usersDisliked: { type: Sequelize.STRING, required: true },
-    // Column-4, default values for
+    // Column-2, name
+    content: { type: Sequelize.STRING, allowNull: false },
+    likes: {type: Sequelize.INTEGER, allowNull: true},
+    users_liked:{ type: Sequelize.STRING, allowNull: true},
+    dislikes: {type: Sequelize.INTEGER, allowNull: true},
+    users_disliked:{ type: Sequelize.STRING, allowNull: true},
+    
     // dates => current time
     myDate: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
@@ -41,7 +43,9 @@ const PostMessage = sequelize.define('postMessage', {
      // Timestamps
      createdAt: Sequelize.DATE,
      updatedAt: Sequelize.DATE,
-})
+},
+{tableName: 'postMessage'})
+
   
 // Exporting User, using this constant
 // we can perform CRUD operations on

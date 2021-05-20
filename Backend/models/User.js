@@ -5,7 +5,8 @@ const Sequelize = require('sequelize')
 // Database connection pool managed by Sequelize.
 const sequelize = require('../utils/database')
 
-const defaultImage = ('http://localhost:3000/images/default.png')
+const defaultProfile = ('http://localhost:3000/images/default.png');
+  
 // Define method takes two arrguments
 // 1st - name of table
 // 2nd - columns inside the table
@@ -32,7 +33,8 @@ const User = sequelize.define('user', {
     // Column-2, name
     firstname: { type: Sequelize.STRING, allowNull:false },
     lastname: { type: Sequelize.STRING, allowNull:false },
-    imageUrl: { type: Sequelize.STRING, allowNull:false, defaultValue: defaultImage }, 
+    imageUrl: { type: Sequelize.STRING, defaultValue: defaultProfile },
+  
     // Column-3, email
     email: { type: Sequelize.STRING, allowNull:false, unique: true },
     password: { type: Sequelize.STRING, allowNull:false },
@@ -45,8 +47,7 @@ const User = sequelize.define('user', {
      // Timestamps
      createdAt: Sequelize.DATE,
      updatedAt: Sequelize.DATE,
-},
-{tableName: 'postMessage'})
+})
   
 // Exporting User, using this constant
 // we can perform CRUD operations on

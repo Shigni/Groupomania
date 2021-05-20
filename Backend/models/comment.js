@@ -9,12 +9,12 @@ const sequelize = require('../utils/database')
 // Define method takes two arrguments
 // 1st - name of table
 // 2nd - columns inside the table
-const PostMedia = sequelize.define('postMedia', {
+const Comment = sequelize.define('comment', {
   
     // Column-1, user_id is an object with 
     // properties like type, keys, 
     // validation of column.
-    media_id:{
+    comment_id:{
   
         // Sequelize module has INTEGER Data_Type.
         type:Sequelize.INTEGER,
@@ -30,12 +30,10 @@ const PostMedia = sequelize.define('postMedia', {
     },
   
     // Column-2, name
-    title: { type: Sequelize.STRING, allowNull:false },
-    mediaUrl: { type: Sequelize.STRING, allowNull:false },
-    likes: {type: Sequelize.INTEGER, allowNull: true},
-    users_liked:{ type: Sequelize.STRING, allowNull: true},
-    dislikes: {type: Sequelize.INTEGER, allowNull: true},
-    users_disliked:{ type: Sequelize.STRING, allowNull: true},
+    commentContent: {type: Sequelize.STRING, allowNull: false},
+    message_id:{ type: Sequelize.INTEGER, allowNull: true},
+    media_id:{ type: Sequelize.INTEGER, allowNull: true},
+    
     
     // dates => current time
     myDate: { type: Sequelize.DATE, 
@@ -43,10 +41,9 @@ const PostMedia = sequelize.define('postMedia', {
   
      // Timestamps
      createdAt: Sequelize.DATE,
-     updatedAt: Sequelize.DATE,
 })
   
 // Exporting User, using this constant
 // we can perform CRUD operations on
 // 'user' table.
-module.exports = PostMedia;
+module.exports = Comment;

@@ -14,7 +14,7 @@ export class AuthService {
   private user_id: string;
 
   constructor(private http: HttpClient,
-    private router: Router) { }
+              private router: Router) { }
 
   createUser(email: string, password: string, firstname: string, lastname: string) {
     return new Promise((resolve, reject) => {
@@ -63,8 +63,7 @@ export class AuthService {
   getUserById(user_id: string) {
     return new Promise((resolve, reject) => {
       console.log(user_id);
-      this.http.get('http://localhost:3000/api/users/user-profile/' + user_id, {
-      }).subscribe(
+      this.http.get('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
         (user: User) => {
           resolve(user);
         },
@@ -90,7 +89,7 @@ export class AuthService {
         const formData = new FormData();
         formData.append('user', JSON.stringify(user));
         formData.append('image', image);
-        //user_id = this.getUserId();
+        console.log(formData);
         this.http.put('http://localhost:3000/api/users/user-profile/' + user_id, formData).subscribe(
           (response: { message: string }) => {
             resolve(response);
@@ -103,16 +102,8 @@ export class AuthService {
     });
   }
 
-  logout() {
-    this.authToken = null;
-    this.user_id = null;
-    this.isAuth$.next(false);
-    this.router.navigate(['login']);
-  }
-
   deleteUser(user_id: string) {
     return new Promise((resolve, reject) => {
-
       this.http.delete('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(
         (response: { message: string }) => {
           resolve(response);
@@ -122,6 +113,13 @@ export class AuthService {
         }
       );
     });
+  }
+
+  logout() {
+    this.authToken = null;
+    this.user_id = null;
+    this.isAuth$.next(false);
+    this.router.navigate(['login']);
   }
 
 }
