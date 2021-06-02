@@ -11,7 +11,7 @@ const sequelize = require('../utils/database')
 // 2nd - columns inside the table
 const Comment = sequelize.define('comment', {
   
-    // Column-1, user_id is an object with 
+    // Column-1, comment_id is an object with 
     // properties like type, keys, 
     // validation of column.
     comment_id:{
@@ -19,22 +19,19 @@ const Comment = sequelize.define('comment', {
         // Sequelize module has INTEGER Data_Type.
         type:Sequelize.INTEGER,
   
-        // To increment user_id automatically.
+        // To increment comment_id automatically.
         autoIncrement:true,
   
-        // user_id can not be null.
+        // comment_id can not be null.
         allowNull:false,
   
-        // For uniquely identify user.
+        // For uniquely identify comment.
         primaryKey:true
     },
   
-    // Column-2, name
-    commentContent: {type: Sequelize.STRING, allowNull: false},
-    message_id:{ type: Sequelize.INTEGER, allowNull: true},
-    media_id:{ type: Sequelize.INTEGER, allowNull: true},
-    
-    
+    // Column-2, content
+    commentContent: {type: Sequelize.STRING, allowNull: false}, 
+      
     // dates => current time
     myDate: { type: Sequelize.DATE, 
             defaultValue: Sequelize.NOW },
@@ -43,7 +40,7 @@ const Comment = sequelize.define('comment', {
      createdAt: Sequelize.DATE,
 })
   
-// Exporting User, using this constant
+// Exporting Comment, using this constant
 // we can perform CRUD operations on
-// 'user' table.
+// 'comment' table.
 module.exports = Comment;

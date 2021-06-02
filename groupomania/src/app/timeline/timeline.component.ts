@@ -1,49 +1,57 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PostMedia } from '../models/post-media.model';
-import { PostMessage } from '../models/post-message.model';
+import { Post } from '../models/post.model';
 import { User } from '../models/user.model';
 import { Subscription } from 'rxjs';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+import { MatMenuTrigger } from '@angular/material/menu';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-timeline',
   templateUrl: './timeline.component.html',
   styleUrls: ['./timeline.component.scss']
 })
+
 export class TimelineComponent implements OnInit {
 
+  @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
   postSub: Subscription;
-  mediaForm: FormGroup;
-  messageForm: FormGroup;
-  postMediaOrMessage = false;
+  postForm: FormGroup;
   loading: boolean;
-  messages: PostMessage[];
-  medias: PostMedia[];
+  posts: Post[];
   errorMsg: string;
   imagePreview: string;
-  animal: string;
-  name: string;
-  
-  constructor(private formBuilder: FormBuilder,
+  user_id: string;
+  user: User;
+
+  constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private post: PostService,
-    public dialog: MatDialog,
-    private auth: AuthService) { }
+    public post: PostService,
+    private auth: AuthService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.postSub = this.post.medias$.subscribe(
-      (medias) => {
-        this.medias = medias;
+    this.user_id = this.auth.getUserId();
+      this.route.params.subscribe(
+        (params) => {
+          console.log(this.auth.getUserId());
+          this.auth.getUserById(this.auth.getUserId()).then(
+            (user: User) => {
+              console.log(user);
+              this.user = user;
+              this.loading = false;
+            }
+          );
+        }
+      );
+      this.loading = true;
+      this.postSub = this.post.posts$.subscribe(
+      (posts) => {
+        this.posts = posts;
         this.loading = false;
         this.errorMsg = null;
       },
@@ -52,13 +60,70 @@ export class TimelineComponent implements OnInit {
         this.loading = false;
       }
     );
-    this.post.getMedias();
-    this.initEmptyFormMedia();
+    this.post.getPosts();
+   }
 
+  onClickPost(post_id: string) {
+    this.router.navigate(['timeline/', post_id]);
+  }
+
+  openMediaDialog() {
+    const dialogRef = this.dialog.open(PostMediaDialog, { restoreFocus: false });
+    dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
+  }
+
+  openMessageDialog() {
+    const dialogRef = this.dialog.open(PostMessageDialog, { restoreFocus: false });
+    dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
+  }
+
+  onLike(post_id: string) {
     this.loading = true;
-    this.postSub = this.post.messages$.subscribe(
-      (messages) => {
-        this.messages = messages;
+    this.post.likePost(post_id).then(
+      (response: { message: string }) => {
+        console.log(response.message);
+        this.loading = false;
+        window.location.reload();
+      }
+    ).catch(
+      (error) => {
+        this.loading = false;
+        //this.errorMessage = error.message;
+        console.error(error);
+      }
+    );
+  }
+}
+
+@Component({
+  selector: 'PostMessageDialog',
+  templateUrl: 'PostMessageDialog.html',
+})
+export class PostMessageDialog {
+
+  postSub: Subscription;
+  mediaForm: FormGroup;
+  messageForm: FormGroup;
+  postMediaOrMessage = false;
+  loading: boolean;
+  posts: Post[];
+  errorMsg: string;
+  imagePreview: string;
+  animal: string;
+  name: string;
+
+  constructor(private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private post: PostService,
+    private auth: AuthService,
+    public dialog: MatDialog) { }
+
+  ngOnInit() {
+    this.loading = true;
+    this.postSub = this.post.posts$.subscribe(
+      (posts) => {
+        this.posts = posts;
         this.loading = false;
         this.errorMsg = null;
       },
@@ -67,29 +132,79 @@ export class TimelineComponent implements OnInit {
         this.loading = false;
       }
     )
-    this.post.getMessages();
+    this.post.getPosts();
     this.initEmptyFormMessage();
   }
-  
-  openDialog(): void {
-    const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-      width: '250px',
-      data: {name: this.name, animal: this.animal}
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      this.animal = result;
+  initEmptyFormMessage() {
+    this.messageForm = this.formBuilder.group({
+      title: [null, Validators.required],
+      content: [null, Validators.required]
     });
   }
 
-  onClickMedia(media_id: string) {
-    this.router.navigate(['timeline/', media_id]);
-  }
-  onClickMessage(message_id: string) {
-    this.router.navigate(['timeline/', message_id]);
-  }
+  onMessage() {
+    this.loading = true;
+    const newPost = new Post();
+    newPost.content = this.messageForm.get('content').value;
+    newPost.title = this.messageForm.get('title').value;
+    newPost.user_id = this.auth.getUserId();
 
+    this.post.createMessage(newPost).then(
+      (response: { message: string }) => {
+        console.log(response.message);
+        this.loading = false;
+        this.router.navigate(['/timeline']);
+      }
+    ).catch(
+      (error) => {
+        console.error(error);
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
+  }
+}
+
+@Component({
+  selector: 'PostMediaDialog',
+  templateUrl: 'PostMediaDialog.html',
+})
+export class PostMediaDialog {
+
+  postSub: Subscription;
+  mediaForm: FormGroup;
+  messageForm: FormGroup;
+  postMediaOrMessage = false;
+  loading: boolean;
+  posts: Post[];
+  errorMsg: string;
+  imagePreview: string;
+  animal: string;
+  name: string;
+
+  constructor(private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private post: PostService,
+    private auth: AuthService,
+    public dialog: MatDialog) { }
+
+  ngOnInit() {
+    this.postSub = this.post.posts$.subscribe(
+      (posts) => {
+        this.posts = posts;
+        this.loading = false;
+        this.errorMsg = null;
+      },
+      (error) => {
+        this.errorMsg = JSON.stringify(error);
+        this.loading = false;
+      }
+    );
+    this.post.getPosts();
+    this.initEmptyFormMedia();
+  }
 
   initEmptyFormMedia() {
     this.mediaForm = this.formBuilder.group({
@@ -97,53 +212,26 @@ export class TimelineComponent implements OnInit {
       image: [null, Validators.required],
     });
   }
-
-  initEmptyFormMessage() {
-    this.messageForm = this.formBuilder.group({
-      content: [null, Validators.required]
-    });
-  }
   onMedia() {
-      this.loading = true;
-      const newMedia = new PostMedia();
-      newMedia.title = this.mediaForm.get('title').value;
-      newMedia.user_id = this.auth.getUserId();
+    this.loading = true;
+    const newPost = new Post();
+    newPost.title = this.mediaForm.get('title').value;
+    newPost.user_id = this.auth.getUserId();
 
-      this.post.createMedia(newMedia, this.mediaForm.get('image').value).then(
-        (response: { message: string }) => {
-          console.log(response.message);
-          this.loading = false;
-          this.router.navigate(['/timeline']);
-        }
-      ).catch(
-        (error) => {
-          console.error(error);
-          this.loading = false;
-          this.errorMsg = error.message;
-        }
-      );
-    }
-    onMessage() {
-      this.loading = true;
-      const newMessage = new PostMessage();
-      newMessage.content = this.messageForm.get('content').value;
-      newMessage.user_id = this.auth.getUserId();
-
-      this.post.createMessage(newMessage).then(
-        (response: { message: string }) => {
-          console.log(response.message);
-          this.loading = false;
-          this.router.navigate(['/timeline']);
-        }
-      ).catch(
-        (error) => {
-          console.error(error);
-          this.loading = false;
-          this.errorMsg = error.message;
-        }
-      );
-    }
-
+    this.post.createMedia(newPost, this.mediaForm.get('image').value).then(
+      (response: { message: string }) => {
+        console.log(response.message);
+        this.loading = false;
+        this.router.navigate(['/timeline']);
+      }
+    ).catch(
+      (error) => {
+        console.error(error);
+        this.loading = false;
+        this.errorMsg = error.message;
+      }
+    );
+  }
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.mediaForm.get('image').setValue(file);
@@ -154,20 +242,4 @@ export class TimelineComponent implements OnInit {
     };
     reader.readAsDataURL(file);
   }
-}
-
-@Component({
-  selector: 'dialog-overview-example-dialog',
-  templateUrl: 'dialog-overview-example-dialog.html',
-})
-export class DialogOverviewExampleDialog {
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogOverviewExampleDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
 }

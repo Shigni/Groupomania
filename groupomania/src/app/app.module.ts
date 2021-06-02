@@ -12,11 +12,12 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
-import { TimelineComponent, DialogOverviewExampleDialog } from './timeline/timeline.component';
+import { TimelineComponent, PostMessageDialog, PostMediaDialog } from './timeline/timeline.component';
 import {MatNativeDateModule} from '@angular/material/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {DemoMaterialModule} from './material-module';
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
+import { SinglePostComponent } from './single-post/single-post.component';
 
 
 
@@ -29,7 +30,9 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/mater
     HomeComponent,
     ProfileUpdateComponent,
     TimelineComponent,
-    DialogOverviewExampleDialog
+    PostMessageDialog,
+    PostMediaDialog,
+    SinglePostComponent
   ],
   imports: [
     BrowserModule,
@@ -43,8 +46,9 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/mater
     ReactiveFormsModule,
     MatFormFieldModule,
   ],
-  entryComponents: [TimelineComponent, DialogOverviewExampleDialog],
-  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},],
+  entryComponents: [TimelineComponent, PostMessageDialog, PostMediaDialog],
+  providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
+  {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -70,13 +70,13 @@ exports.getUser = (req, res, next) => {
 
 // Update
 exports.update = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)
-        .then(hash => {
+  //bcrypt.hash(req.body.password, 10)
+        //.then(hash => {
   let file = req.file;
   User.findOne({
     where: { user_id: req.params.user_id },
   })
-    //.then(user => {
+    .then(user => {
       
       /*bcrypt.compare(req.body.password, user.password)
         .then(valid => {
@@ -88,7 +88,23 @@ exports.update = (req, res, next) => {
           const defaultFile = user.imageUrl;
           const defaultImage = 'http://localhost:3000/images/default.png';
           if (defaultFile == defaultImage) {
-            return
+            const values = req.file ?
+            {
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              email: req.body.email,
+              //password: hash,
+              imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            } : {
+              firstname: req.body.firstname,
+              lastname: req.body.lastname,
+              //password: hash,
+              email: req.body.email,
+            };
+          var condition = { where: { user_id: req.params.user_id } }
+          var options = { multi: true };
+
+          User.update(values, condition, options)
           }
           else if (file && filename != file.filename) {
             fs.unlink(`images/${filename}`, () => {
@@ -100,12 +116,12 @@ exports.update = (req, res, next) => {
               firstname: req.body.firstname,
               lastname: req.body.lastname,
               email: req.body.email,
-              password: hash,
+              //password: hash,
               imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
             } : {
               firstname: req.body.firstname,
               lastname: req.body.lastname,
-              password: hash,
+              //password: hash,
               email: req.body.email,
             };
           var condition = { where: { user_id: req.params.user_id } }
