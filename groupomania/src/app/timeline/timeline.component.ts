@@ -154,7 +154,7 @@ export class PostMessageDialog {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        this.router.navigate(['/timeline']);
+        window.location.reload();
       }
     ).catch(
       (error) => {
@@ -222,7 +222,7 @@ export class PostMediaDialog {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        this.router.navigate(['/timeline']);
+        window.location.reload();;
       }
     ).catch(
       (error) => {

@@ -6,7 +6,7 @@ const user = require('./user')
 const fs = require('fs');
 
 // hasMany
-User.hasMany(Post, { foreignKey: 'user_id' });
+User.hasMany(Post, { foreignKey: 'user_id', onDelete: 'cascade', hooks:true });
 Post.belongsTo(User, { foreignKey: 'user_id' });
 
 // Créer une media
@@ -71,14 +71,14 @@ exports.deletePost = (req, res, next) => {
 
 // Affichage d'un post
 exports.getPost = (req, res, next) => {
-    Post.findOne({ include: {all: true}, where: { post_id: req.params.post_id } })
+    Post.findOne({ include: {all: true, nested: true}, where: { post_id: req.params.post_id } })
         .then(post => res.status(200).json(post))
         .catch(error => res.status(404).json({ error }));
 };
 
 // Affichage de tous les posts
 exports.getPosts = (req, res, next) => {
-    Post.findAll({ include: {all: true} /*User*/ })
+    Post.findAll({ include: {all: true, nested: true} /*User*/ })
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 };

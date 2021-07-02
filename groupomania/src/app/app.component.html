@@ -1,11 +1,37 @@
 <!--<app-header></app-header>-->
 <div class="container">
-  <nav>
+  <mat-toolbar>
+    <a class="logo" routerLink="/timeline"><img src="../assets/logo-navbar-color.png" alt="Logo Groupomania"></a>
+    <!--<button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <mat-icon>account_circle</mat-icon>
+      </button>
+      
     
-    <a routerLink="/signup" *ngIf="!AuthGuard.isLoggedin">Signup</a>
-    <a routerLink="/login"*ngIf="!AuthGuard.isLoggedin">Login</a>
-    <a routerLink="/timeline"*ngIf="AuthGuard.isLoggedin">Fil d'actualité</a>
-    <a routerLink="/logout"*ngIf="AuthGuard.isLoggedin" (click)="onLogout()">Se déconnecter</a>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <mat-icon>logout</mat-icon>
+    </button>-->
+    <div class="navbar-icon profil-b">
+    <a mat-icon-button class="example-icon favorite-icon profil-icon" routerLink="/user-profile"*ngIf="AuthGuard.isLoggedin"><mat-icon>account_circle</mat-icon></a>
+    <div class="label-hover profil">Mon profile</div>
+  </div>
+  <div class="navbar-icon home-b">
+    <a class="timelineIcon"  mat-icon-button class="example-icon home-icon" routerLink="/timeline" *ngIf="AuthGuard.isLoggedin"><mat-icon>home</mat-icon></a>
+    <div class="label-hover home">Fil d'actualité</div>
+  </div>
+  <div class="navbar-icon logout-b">
+    <a mat-icon-button class="example-icon logout-icon" routerLink="/logout" *ngIf="AuthGuard.isLoggedin" (click)="onLogout()"><mat-icon>logout</mat-icon></a>
+    <div class="label-hover logout">Se déconnecter</div>
+  </div>
+    <a mat-icon-button class="example-icon" routerLink="/signup" *ngIf="!AuthGuard.isLoggedin"><mat-icon>person_add</mat-icon></a>
+    <a mat-icon-button class="example-icon" routerLink="/login" *ngIf="!AuthGuard.isLoggedin"><mat-icon>login</mat-icon></a>
+  </mat-toolbar>
+  
+  <nav>
+    <!--<a routerLink="/user-profile"*ngIf="AuthGuard.isLoggedin">Profil</a>-->
+   <!-- <a routerLink="/signup" *ngIf="!AuthGuard.isLoggedin">Signup</a>
+    <a routerLink="/login" *ngIf="!AuthGuard.isLoggedin">Login</a>
+    <a routerLink="/timeline" *ngIf="AuthGuard.isLoggedin">Fil d'actualité</a>
+    <a routerLink="/logout" *ngIf="AuthGuard.isLoggedin" (click)="onLogout()">Se déconnecter</a>-->
     
   </nav>
   <router-outlet></router-outlet>

@@ -9,7 +9,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { HomeComponent } from './home/home.component';
+//import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
 import { TimelineComponent, PostMessageDialog, PostMediaDialog } from './timeline/timeline.component';
@@ -27,7 +27,7 @@ import { SinglePostComponent } from './single-post/single-post.component';
     SignupComponent,
     LoginComponent,
     UserProfileComponent,
-    HomeComponent,
+    //HomeComponent,
     ProfileUpdateComponent,
     TimelineComponent,
     PostMessageDialog,

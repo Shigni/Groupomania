@@ -107,6 +107,7 @@ export class ProfileUpdateComponent implements OnInit {
         console.log(response.message);
         this.loading = false;
         window.localStorage.clear();
+        window.location.reload();
         this.router.navigate(['/signup']);
       }
     ).catch(

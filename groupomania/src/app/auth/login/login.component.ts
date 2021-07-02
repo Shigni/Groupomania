@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
     this.auth.loginUser(email, password).then(
       () => {
         this.loading = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/timeline']);
       }
     ).catch(
       (error) => {

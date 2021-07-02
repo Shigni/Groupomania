@@ -1,17 +1,4 @@
 <mat-card class="example-card">
-  <!--<div *ngFor="let post of post">
-  <pre>
-  <p>{{ post | json }}</p>
-</pre>-->
-
-<!--<div  *ngFor = "let obpost of posts | keyvalue">
-  <div  *ngFor = "let user of obpost.value | keyvalue">
-      <div  *ngFor = "let nestedpost of user.value | keyvalue">
-           {{nestedpost.value}}
-      </div>
-  </div>
-</div>-->
-  <!--</div>-->
   <mat-card-header>
     <img mat-card-avatar class="example-header-image" [src]="post.user.imageUrl">
     <mat-card-title>{{ post.user.firstname }} {{ post.user.lastname }}</mat-card-title>
@@ -27,8 +14,37 @@
   <mat-card-actions>
     <div *ngIf="post.likes">{{ post.likes.length }}</div>
     <button mat-button (click)="onLike()">Like</button>
+
+    
+
     <button mat-raised-button (click)="onBack()">Retour</button>
-    <button mat-raised-button color="warn" (click)="onDelete()" *ngIf="user_id === post.user_id">Supprimer</button>
+    <button mat-raised-button color="warn" (click)="onDelete()" (click)="openPostSnackBar()" *ngIf="user_id === post.user_id">Supprimer</button>
+  </mat-card-actions>
+  <form [formGroup]="commentForm" class="example-form">
+    <mat-form-field class="example-full-width">
+      <mat-label>Commentaire</mat-label>
+      <input matInput #message maxlength="256" placeholder="Ex. I need help with..." class="form-control" id="commentContent" formControlName="commentContent">
+      <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+    </mat-form-field>
+  <button mat-raised-button (click)="onComment()" (click)="openAddCommentSnackBar()">Commenter</button>
+  </form>
+</mat-card>
+
+<mat-card class="example-card" *ngFor="let comment of post.comments" >
+
+  <mat-card-header>
+    <img mat-card-avatar class="example-header-image" [src]="comment.user.imageUrl">
+    <mat-card-title>{{ comment.user.firstname }} {{ comment.user.lastname }}</mat-card-title>
+    
+  </mat-card-header>
+  
+  <mat-card-content>
+    <p>
+      {{ comment.commentContent }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button (click)="onDeleteComment(comment.comment_id)" (click)="openDeleteCommentSnackBar()">Supprimer</button>
   </mat-card-actions>
 
 </mat-card>
