@@ -1,12 +1,13 @@
 // Importation des models
 const Post = require('../models/post');
 const User = require('../models/User');
+const Comment = require('../models/comment');
 const user = require('./user')
 // Importation du module fs 
 const fs = require('fs');
 
 // hasMany
-User.hasMany(Post, { foreignKey: 'user_id', onDelete: 'cascade', hooks:true });
+User.hasMany(Post, { foreignKey: 'user_id', onDelete: 'cascade', hooks: true });
 Post.belongsTo(User, { foreignKey: 'user_id' });
 
 // Créer une media
@@ -62,8 +63,8 @@ exports.deletePost = (req, res, next) => {
             }
             else {
                 Post.destroy({ where: { post_id: req.params.post_id } })
-                        .then(() => res.status(200).json({ message: 'Post supprimée !' }))
-                        .catch(error => res.status(400).json({ error }));
+                    .then(() => res.status(200).json({ message: 'Post supprimée !' }))
+                    .catch(error => res.status(400).json({ error }));
             }
         })
         .catch(error => res.status(500).json({ error }));
@@ -71,14 +72,47 @@ exports.deletePost = (req, res, next) => {
 
 // Affichage d'un post
 exports.getPost = (req, res, next) => {
-    Post.findOne({ include: {all: true, nested: true}, where: { post_id: req.params.post_id } })
+    Post.findOne({
+        include: { all: true, nested: true }, where: { post_id: req.params.post_id }, order: [
+            [Comment, 'comment_id', 'DESC']
+        ]
+    })
         .then(post => res.status(200).json(post))
         .catch(error => res.status(404).json({ error }));
 };
 
 // Affichage de tous les posts
 exports.getPosts = (req, res, next) => {
-    Post.findAll({ include: {all: true, nested: true} /*User*/ })
+    Post.findAll({
+        include: { all: true, nested: true }, order: [
+            ['post_id', 'DESC']
+        ]
+    })
+        .then(posts => res.status(200).json(posts))
+        .catch(error => res.status(400).json({ error }));
+};
+
+exports.getPostsMessages = (req, res, next) => {
+    // Recherche de tous les messsages et triage de ces derniers du plus récent au plus ancien
+    Post.findAll({
+        include: { all: true, nested: true }, where:
+            { mediaUrl: null }, order: [
+                ['post_id', 'DESC']
+            ]
+    })
+        .then(posts => res.status(200).json(posts))
+        .catch(error => res.status(400).json({ error }));
+};
+
+// Affichage de tous les medias
+exports.getPostsMedias = (req, res, next) => {
+    // Recherche de tous les medias et triage de ces derniers du plus récent au plus ancien
+    Post.findAll({
+        include: { all: true, nested: true }, where:
+            { content: null }, order: [
+                ['post_id', 'DESC']
+            ]
+    })
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 };

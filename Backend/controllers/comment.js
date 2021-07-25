@@ -1,22 +1,21 @@
-// Importation des models
+// Importation des modèles
 const Post = require('../models/post');
 const User = require('../models/User');
-const user = require('./user');
-const Like = require('../models/like');
 const Comment = require('../models/comment');
 
 // hasMany
-Post.hasMany(Comment, { foreignKey: 'post_id', onDelete: 'cascade', hooks:true });
-Comment.belongsTo(Post, { foreignKey: 'post_id' });
-User.hasMany(Comment, { foreignKey: 'user_id', onDelete: 'cascade', hooks:true });
+User.hasMany(Comment, { foreignKey: 'user_id', onDelete: 'cascade', hooks: true });
 Comment.belongsTo(User, { foreignKey: 'user_id' });
+Post.hasMany(Comment, { foreignKey: 'post_id', onDelete: 'cascade', hooks: true });
+Comment.belongsTo(Post, { foreignKey: 'post_id' });
 
+// Créer un commentaire
 exports.createComment = (req, res, next) => {
     // Récupération des informations du formulaire de création de commentaire
     const commentObject = req.body;
     const user_id = req.body.user_id;
     const post_id = req.params.post_id;
-    // Création dans la base de donnée du commentaire
+    // Création dans la base de donnée du message
     const comment = new Comment({
         ...commentObject,
         user_id: user_id,
@@ -29,16 +28,42 @@ exports.createComment = (req, res, next) => {
 
 // Supprimer un commentaire
 exports.deleteComment = (req, res, next) => {
-    // Recherche de la media grâce à son ID
+    // Ajout des constantes necessaires
     const user_id = res.locals.userId;
     const post_id = req.params.post_id;
     const comment_id = req.params.comment_id;
-    Comment.findOne({ where: { post_id: post_id, user_id: user_id, comment_id: comment_id } })
-        .then(comment => {
-            console.log(comment)
-                Comment.destroy({ where: { comment_id: comment_id, post_id: post_id, user_id: user_id } })
-                        .then(() => res.status(200).json({ message: 'Commentaire supprimée !' }))
-                        .catch(error => res.status(400).json({ error }));
-            })
-        .catch(error => res.status(404).json({ error }));
+    // Vérification de l'utilisateur connecté
+    var user = User.findOne({ where: { user_id: user_id } })
+        .then(user => {
+            var admin = user.admin;
+            // Si l'utilisateur est admin
+            if (admin === true) {
+                // Recherche du commentaire séléctionné
+                Comment.findOne({ where: { comment_id: comment_id } })
+                    .then(comment => {
+                        // Suppression du commentaire
+                        Comment.destroy({ where: { comment_id: comment_id } })
+                            .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
+                            .catch(error => res.status(400).json({ error }));
+                    })
+            }
+            // Si l'utilisateur n'est pas admin
+            else if (admin === false) {
+                // Recherche du commentaire séléctionné
+                Comment.findOne({ where: { post_id: post_id, user_id: user_id, comment_id: comment_id } })
+                    .then(comment => {
+                        // Si le commentaire séléctionné ne regroupe pas ces paramètres -> annulation
+                        if (comment === null) {
+                            res.status(403).json({ "error": "Accès interdit" });
+                            return;
+                        }
+                        // Si "comment" n'est pas "null" suppression du commentaire
+                        Comment.destroy({ where: { comment_id: comment_id, post_id: post_id, user_id: user_id } })
+                            .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
+                            .catch(error => res.status(400).json({ error }));
+
+                    })
+                    .catch(error => res.status(500).json({ error }));
+            };
+        })
 };

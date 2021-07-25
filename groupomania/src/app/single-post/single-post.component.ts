@@ -6,9 +6,7 @@ import { User } from '../models/user.model';
 import { Comment } from '../models/comment.model';
 import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import { MatMenuTrigger } from '@angular/material/menu';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -27,15 +25,19 @@ export class SinglePostComponent implements OnInit {
   errorMessage: string;
   user: User;
   commentForm: FormGroup;
-  durationInSeconds = 5;
+  durationInSeconds = 3;
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
 
   constructor(public posts: PostService,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private auth: AuthService,
     private _snackBar: MatSnackBar,
     private router: Router) { }
 
+  // Récupération des données du post et user + création du form commentaire
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.loading = true;
@@ -45,34 +47,55 @@ export class SinglePostComponent implements OnInit {
           (post: Post) => {
             this.post = post;
             this.loading = false;
-            console.log(post);
           }
         );
       }
     );
     this.user_id = this.auth.getUserId();
-      this.route.params.subscribe(
-        (params) => {
-          console.log(this.auth.getUserId());
-          this.auth.getUserById(this.auth.getUserId()).then(
-            (user: User) => {
-              this.user = user;
-              this.loading = false;
-            }
-          );
-        }
-      );
-      this.initEmptyFormComment();
-      
+    this.route.params.subscribe(
+      (params) => {
+        this.auth.getUserById(this.auth.getUserId()).then(
+          (user: User) => {
+            this.user = user;
+            this.loading = false;
+          }
+        );
+      }
+    );
+    this.initEmptyFormComment();
   }
 
-  openPostSnackBar() {
+  // Pagination
+  public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+  }
+
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
+  }
+  // Pagination
+
+  // Snackbar
+  openDeletePostSnackBar() {
     this._snackBar.openFromComponent(DeletePostComponent, {
       duration: this.durationInSeconds * 1000,
     });
   }
 
+  openDeleteCommentSnackBar() {
+    this._snackBar.openFromComponent(DeleteCommentComponent, {
+      duration: this.durationInSeconds * 1000,
+    });
+  }
 
+  openPostCommentSnackBar() {
+    this._snackBar.openFromComponent(PostCommentComponent, {
+      duration: this.durationInSeconds * 1000,
+    });
+  }
+  // Snackbar
+
+  // Ajout/suppression d'un like
   onLike() {
     this.loading = true;
     this.posts.likePost(this.post.post_id).then(
@@ -90,10 +113,12 @@ export class SinglePostComponent implements OnInit {
     );
   }
 
+  // Fonction de retour
   onBack() {
     this.router.navigate(['/timeline']);
   }
 
+  // Fonction de suppression d'un post
   onDelete() {
     this.loading = true;
     this.posts.deletePost(this.post.post_id).then(
@@ -111,13 +136,15 @@ export class SinglePostComponent implements OnInit {
     );
   }
 
+  // Création du form commentaire
   initEmptyFormComment() {
     this.commentForm = this.formBuilder.group({
-      commentContent: [null, Validators.required]
+      commentContent: [null, Validators.required],
     });
   }
 
-  onComment(){
+  // Fonction d'ajout d'un commentaire
+  onComment() {
     this.loading = true;
     const newComment = new Comment();
     newComment.commentContent = this.commentForm.get('commentContent').value;
@@ -127,8 +154,7 @@ export class SinglePostComponent implements OnInit {
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        window.location.reload();
-        //this.router.navigate(['/timeline']);
+        window.setTimeout(function () { location.reload() }, 500)
       }
     ).catch(
       (error) => {
@@ -139,14 +165,15 @@ export class SinglePostComponent implements OnInit {
     );
   }
 
-  onDeleteComment(comment_id){
+  // Fonction de suppression d'un commentaire
+  onDeleteComment(comment_id) {
     this.loading = true;
+    console.log(comment_id);
     this.posts.deleteComment(this.post.post_id, comment_id).then(
       (response: { message: string }) => {
         console.log(response.message);
         this.loading = false;
-        window.location.reload();
-        //this.router.navigate(['/timeline']);
+        window.setTimeout(function () { location.reload() }, 500)
       }
     ).catch(
       (error) => {
@@ -156,47 +183,40 @@ export class SinglePostComponent implements OnInit {
       }
     );
   }
-  openAddCommentSnackBar() {
-    this._snackBar.openFromComponent(AddCommentComponent, {
-      duration: this.durationInSeconds * 1000,
-    });
-  }
-  openDeleteCommentSnackBar() {
-    this._snackBar.openFromComponent(DeleteCommentComponent, {
-      duration: this.durationInSeconds * 1000,
-    });
-  }
 }
 
+// Snackbar
 @Component({
   selector: 'delete-post-snackbar',
   templateUrl: 'delete-post-snackbar.html',
   styles: [`
-    .delete-post-snackbar {
-      color: hotpink;
+    .delete-post {
+      color: grey;
     }
   `],
 })
-export class DeletePostComponent {}
+export class DeletePostComponent { }
+
 
 @Component({
   selector: 'delete-comment-snackbar',
   templateUrl: 'delete-comment-snackbar.html',
   styles: [`
-    .delete-comment-snackbar {
-      color: hotpink;
+    .delete-post {
+      color: grey;
     }
   `],
 })
-export class DeleteCommentComponent {}
+export class DeleteCommentComponent { }
 
 @Component({
   selector: 'add-comment-snackbar',
   templateUrl: 'add-comment-snackbar.html',
   styles: [`
-    .add-comment-snackbar {
-      color: hotpink;
+    .delete-post {
+      color: grey;
     }
   `],
 })
-export class AddCommentComponent {}
+export class PostCommentComponent { }
+// Snackbar

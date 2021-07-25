@@ -7,9 +7,11 @@ const router = express.Router();
 const userCtrl = require('../controllers/user');
 const auth = require('../middleware/auth');
 const multer = require('../middleware/multer-config');
+const checkPassword = require('../middleware/validator');
+
 
 // Route création d'un utilisateur
-router.post('/signup', userCtrl.signup);
+router.post('/signup', checkPassword, userCtrl.signup);
 // Route connexion d'un utilisateur
 router.post('/login', userCtrl.login);
 // Route modification d'un utilisateur

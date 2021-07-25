@@ -1,50 +1,89 @@
-<mat-card class="example-card">
-  <mat-card-header>
-    <img mat-card-avatar class="example-header-image" [src]="post.user.imageUrl">
-    <mat-card-title>{{ post.user.firstname }} {{ post.user.lastname }}</mat-card-title>
-    <mat-card-subtitle>{{ post.title }}</mat-card-subtitle>
-  </mat-card-header>
-  <img mat-card-image [src]="post.mediaUrl" alt="">
-  <mat-card-content>
-    <p>
-      {{ post.content }}
-    </p>
-    
-  </mat-card-content>
-  <mat-card-actions>
-    <div *ngIf="post.likes">{{ post.likes.length }}</div>
-    <button mat-button (click)="onLike()">Like</button>
+<div class="container">
+  <mat-card class="example-card">
+    <mat-card-header>
 
-    
+      <img mat-card-avatar class="example-header-image" [src]="post?.user?.imageUrl" alt="Photo de profil de {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
+      <mat-card-title>{{ post?.user?.firstname }} {{ post?.user?.lastname }}</mat-card-title>
 
-    <button mat-raised-button (click)="onBack()">Retour</button>
-    <button mat-raised-button color="warn" (click)="onDelete()" (click)="openPostSnackBar()" *ngIf="user_id === post.user_id">Supprimer</button>
-  </mat-card-actions>
-  <form [formGroup]="commentForm" class="example-form">
-    <mat-form-field class="example-full-width">
-      <mat-label>Commentaire</mat-label>
-      <input matInput #message maxlength="256" placeholder="Ex. I need help with..." class="form-control" id="commentContent" formControlName="commentContent">
-      <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
-    </mat-form-field>
-  <button mat-raised-button (click)="onComment()" (click)="openAddCommentSnackBar()">Commenter</button>
-  </form>
-</mat-card>
+    </mat-card-header>
+    <mat-card-content>
+      <h1>{{ post?.title }}</h1>
 
-<mat-card class="example-card" *ngFor="let comment of post.comments" >
+      <img mat-card-image *ngIf="post.mediaUrl != null" [src]="post?.mediaUrl" alt="Photo publiée par {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
+      <p class="text">
+        {{ post?.content }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <div class="infoPost">
+        <div *ngIf="post?.likes">
+          <div class="likecount" *ngFor="let like of post.likes.slice(0, 1)">
+            <div *ngIf="post.likes.length === 2" class="infoLike">
+              <mat-icon class="count">thumb_up</mat-icon> {{like.user.firstname}} {{like.user.lastname}} et {{
+              post.likes.length -1}} autre personne.
+            </div>
+            <div *ngIf="post.likes.length >= 3 && post.likes.length <= 9" class="infoLike">
+              <mat-icon class="count">thumb_up</mat-icon> {{like.user.firstname}} {{like.user.lastname}} et {{
+              post.likes.length -1}} autres personnes.
+            </div>
+            <div *ngIf="post.likes.length <= 1" class="infoLike">
+              <mat-icon class="count">thumb_up</mat-icon> {{like.user.firstname}} {{like.user.lastname}} aime ça.
+            </div>
+            <div *ngIf="post.likes.length >= 10" class="infoLike">
+              <mat-icon class="count">thumb_up</mat-icon> {{ post.likes.length }}
+            </div>
+          </div>
+        </div>
+        <div *ngFor="let comment of post?.comments">
+          <div class="comment" *ngIf="post.comments.length <= 1">{{ post.comments.length }} commentaire</div>
+          <div class="comment" *ngIf="post.comments.length >= 2">{{ post.comments.length }} commentaires</div>
+        </div>
+      </div>
+    </mat-card-actions>
 
-  <mat-card-header>
-    <img mat-card-avatar class="example-header-image" [src]="comment.user.imageUrl">
-    <mat-card-title>{{ comment.user.firstname }} {{ comment.user.lastname }}</mat-card-title>
-    
-  </mat-card-header>
-  
-  <mat-card-content>
-    <p>
-      {{ comment.commentContent }}
-    </p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button (click)="onDeleteComment(comment.comment_id)" (click)="openDeleteCommentSnackBar()">Supprimer</button>
-  </mat-card-actions>
+    <form class="example-form" [formGroup]="commentForm">
+      <mat-form-field class="example-full-width">
+        <mat-label>Commentaire</mat-label>
+        <input matInput #message maxlength="256" placeholder="Laissez un commentaire..." class="form-control"
+          id="commentContent" formControlName="commentContent">
+        <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+      </mat-form-field>
+      <div class="btnAction">
+        <div class="btnInteract">
+          <button mat-raised-button color="primary" (click)="onComment()"
+            (click)="openPostCommentSnackBar()">Commenter</button>
+          <button mat-button (click)="onLike()">
+            <mat-icon>thumb_up</mat-icon> J'aime
+          </button>
+        </div>
+        <button mat-raised-button color="warn" class="delete" (click)="onDelete()" (click)="openDeletePostSnackBar()"
+          *ngIf="user_id === post?.user_id || user?.admin === true">Supprimer</button>
+      </div>
+    </form>
+  </mat-card>
 
-</mat-card>
+  <div class="example-card" *ngFor="let comment of post?.comments | slice: pageSize | slice: 0:1">
+    <div *ngIf="post.comments.length > 5">
+      <ngb-pagination [collectionSize]="post.comments.length" #numPages [pageSize]="itemsPerPage" [(page)]="currentPage"
+        (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+    </div>
+  </div>
+  <mat-card class="example-card comments"
+    *ngFor="let comment of post?.comments | slice: pageSize | slice: 0:itemsPerPage">
+    <mat-card-header>
+      <img mat-card-avatar class="example-header-image" [src]="comment.user.imageUrl">
+      <mat-card-title>{{ comment.user.firstname }} {{ comment.user.lastname }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p>
+        {{ comment.commentContent }}
+      </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button *ngIf="user_id === comment.user_id || user?.admin === true"
+        (click)="onDeleteComment(comment.comment_id)" (click)="openDeleteCommentSnackBar()">Supprimer</button>
+    </mat-card-actions>
+
+  </mat-card>
+</div>

@@ -27,6 +27,30 @@ export class PostService {
       }
     );
   }
+
+  getMessages() {
+    this.http.get('http://localhost:3000/api/post/messages').subscribe(
+      (posts: Post[]) => {
+        this.posts$.next(posts);
+      },
+      (error) => {
+        this.posts$.next([]);
+        console.error(error);
+      }
+    );
+  }
+
+  getMedias() {
+    this.http.get('http://localhost:3000/api/post/medias').subscribe(
+      (posts: Post[]) => {
+        this.posts$.next(posts);
+      },
+      (error) => {
+        this.posts$.next([]);
+        console.error(error);
+      }
+    );
+  }
   /*getPost(post_id: string) {
     this.http.get('http://localhost:3000/api/post/timeline', post_id).subscribe(
       (posts: Post[]) => {

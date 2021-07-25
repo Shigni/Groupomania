@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="loading"></mat-spinner>
+<!--<mat-spinner *ngIf="loading"></mat-spinner>
 <form [formGroup]="loginForm" *ngIf="!loading">
   <div class="form-group">
     <label for="email">Email</label>
@@ -10,4 +10,33 @@
   </div>
   <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">LOGIN</button>
   <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+</form>-->
+
+<div class="container">
+  <mat-card class="card">
+  
+  <h1>Connectez-vous à votre compte Groupomania</h1>
+<mat-spinner *ngIf="loading"></mat-spinner>
+<form [formGroup]="loginForm" *ngIf="!loading">
+    <mat-form-field appearance="fill" class="inputField">
+      <mat-label>Email</mat-label>
+      <input matInput placeholder="pat@example.com" [formControl]="email" required class="form-control" id="email" formControlName="email">
+      <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+  <div class="form-group">
+    <mat-form-field appearance="fill" class="inputField">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput [type]="hide ? 'password' : 'text'" class="form-control" id="password" formControlName="password" required>
+      <div mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </div>
+    </mat-form-field>
+  </div>
+
+  <button class="btn" mat-raised-button [disabled]="loginForm.invalid" (click)="onLogin()">Se connecter</button>
+  <p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+  <p class="signup">Vous n'êtes pas encore inscrit ?&ensp;<a routerLink="/signup">Inscrivez-vous !</a></p>
 </form>
+</mat-card>
+</div>

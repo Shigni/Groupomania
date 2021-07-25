@@ -8,6 +8,7 @@ import { PostService } from '../services/post.service';
 import { AuthService } from '../services/auth.service';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-timeline',
@@ -26,6 +27,10 @@ export class TimelineComponent implements OnInit {
   imagePreview: string;
   user_id: string;
   user: User;
+  currentPage = 1;
+  itemsPerPage = 5;
+  pageSize: number;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,8 +68,24 @@ export class TimelineComponent implements OnInit {
     this.post.getPosts();
    }
 
+   public onPageChange(pageNum: number): void {
+    this.pageSize = this.itemsPerPage * (pageNum - 1);
+  }
+
+  public changePagesize(num: number): void {
+    this.itemsPerPage = this.pageSize + num;
+  }
+
   onClickPost(post_id: string) {
     this.router.navigate(['timeline/', post_id]);
+  }
+
+  onClickFilterMessages() {
+    this.router.navigate(['./messages']);
+  }
+
+  onClickFilterMedias() {
+    this.router.navigate(['./medias/']);
   }
 
   openMediaDialog() {
@@ -98,6 +119,7 @@ export class TimelineComponent implements OnInit {
 @Component({
   selector: 'PostMessageDialog',
   templateUrl: 'PostMessageDialog.html',
+  styleUrls: ['./PostMessageDialog.scss']
 })
 export class PostMessageDialog {
 
@@ -169,6 +191,7 @@ export class PostMessageDialog {
 @Component({
   selector: 'PostMediaDialog',
   templateUrl: 'PostMediaDialog.html',
+  styleUrls: ['./PostMediaDialog.scss']
 })
 export class PostMediaDialog {
 

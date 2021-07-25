@@ -11,13 +11,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 //import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
-import { ProfileUpdateComponent } from './profile-update/profile-update.component';
+import { ProfileUpdateComponent, DeleteAccountDialog } from './profile-update/profile-update.component';
 import { TimelineComponent, PostMessageDialog, PostMediaDialog } from './timeline/timeline.component';
 import {MatNativeDateModule} from '@angular/material/core';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {DemoMaterialModule} from './material-module';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {AutosizeModule} from 'ngx-autosize';
+
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import { SinglePostComponent } from './single-post/single-post.component';
+import { MediasComponent } from './medias/medias.component';
+import { MessagesComponent } from './messages/messages.component';
 
 
 
@@ -32,7 +38,10 @@ import { SinglePostComponent } from './single-post/single-post.component';
     TimelineComponent,
     PostMessageDialog,
     PostMediaDialog,
-    SinglePostComponent
+    SinglePostComponent,
+    DeleteAccountDialog,
+    MediasComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +50,9 @@ import { SinglePostComponent } from './single-post/single-post.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    NgxPaginationModule,
+    NgbModule,
+    AutosizeModule,
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,

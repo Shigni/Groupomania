@@ -1,8 +1,14 @@
 const express = require('express');
+const helmet = require("helmet");
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const mysql = require('mysql2');
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100 // limit each IP to 100 requests per windowMs
+  });
 require('dotenv').config();
 
 const usersRoutes = require('./routes/users');
@@ -27,6 +33,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
+
+app.use(helmet());
+app.use(limiter);
 
 app.use(bodyParser.json());
 

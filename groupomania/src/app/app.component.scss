@@ -1,9 +1,10 @@
 
-.logo {
-    width: 15%;
+/*.logo {
+    width: 200px;
     margin-top: 8px;
     img {
         width: 100%;
+        vertical-align: baseline;
     }
 }
 
@@ -66,4 +67,148 @@
 .mat-icon {
     font-size: 30px;
     width: 100%;
+}*/
+
+.logo {
+    width: 200px;
+    margin-top: 8px;
+    img {
+        width: 100%;
+        vertical-align: baseline;
+    }
+}
+
+.logoTablet {
+    display: none;
+    width: 50px;
+    margin-top: 8px;
+    img {
+        width: 100%;
+        vertical-align: baseline;
+    }
+}
+
+.responsive{
+    display: contents;
+}
+
+.menuBurger {
+    position: absolute;
+    right: 0px;
+    display: none;
+    .mat-icon {
+        display: flex;
+        align-items: center;
+    }
+}
+
+.mat-toolbar {
+    background: white;
+    position: relative;
+    color: #fd2d01;
+    -webkit-box-shadow: 0px 1px 5px 0px rgba(183, 185, 189, 1);
+    -moz-box-shadow: 0px 1px 5px 0px rgba(183, 185, 189, 1);
+    box-shadow: 0px 1px 5px 0px rgba(183, 185, 189, 1);
+    .info {
+        position: absolute;
+        margin-top: 35px;
+        font-size: 15px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border-radius: 10px;
+        color: white;
+        font-weight: normal;
+        background-color: rgba(0, 0, 0, 0.7);
+        opacity: 0;
+        transition: 0.3s opacity;
+        transition-delay: 0.3s;
+    }
+    .mat-icon {
+        width: 100%;
+        font-size: 35px;
+    }
+}
+.home:hover + .home-info {
+    opacity: 1;
+}
+
+.account:hover + .account-info {
+    opacity: 1;
+}
+
+.logout:hover + .logout-info {
+    opacity: 1;
+}
+
+.signup:hover + .signup-info {
+    opacity: 1;
+}
+
+.signin:hover + .signin-info {
+    opacity: 1;
+}
+
+.hover-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 5%;
+}
+.homeb {
+    position: absolute;
+    right: 135px;
+}
+.accountb {
+    position: absolute;
+    right: 85px;
+}
+.logoutb {
+    position: absolute;
+    right: 35px;
+}
+.signinb {
+    position: absolute;
+    right: 35px;
+}
+.signupb {
+    position: absolute;
+    right: 85px;
+}
+
+footer {
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    background: transparent;
+    width: 100%;
+  }
+
+@media only screen and (max-width: 768px) {
+    .logo {
+        width: 200px;
+        margin-top: 8px;
+        display: none;
+        img {
+            width: 100%;
+            vertical-align: baseline;
+        }
+    }
+
+    .logoTablet {
+        display: block;
+        width: 50px;
+        margin-top: 8px;
+        img {
+            width: 100%;
+            vertical-align: baseline;
+        }
+    }
+
+    .menuBurger{
+        display: block;
+    }
+
+    .responsive{
+        display: none;
+    }
 }

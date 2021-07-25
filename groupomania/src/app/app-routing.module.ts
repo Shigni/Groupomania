@@ -8,6 +8,9 @@ import { AuthGuard } from './services/auth-guard.service';
 import { ProfileUpdateComponent } from './profile-update/profile-update.component';
 import { TimelineComponent } from './timeline/timeline.component';
 import { SinglePostComponent } from './single-post/single-post.component';
+import { MediasComponent } from './medias/medias.component';
+import { MessagesComponent } from './messages/messages.component';
+
 
 
 const routes: Routes = [
@@ -18,6 +21,8 @@ const routes: Routes = [
   { path: 'profile-update', component: ProfileUpdateComponent, canActivate: [AuthGuard] },
   { path: 'timeline', component: TimelineComponent, canActivate: [AuthGuard] },
   { path: 'timeline/:post_id', component: SinglePostComponent, canActivate: [AuthGuard] },
+  { path: 'medias', component: MediasComponent, canActivate: [AuthGuard] },
+  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

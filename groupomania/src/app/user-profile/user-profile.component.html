@@ -1,12 +1,24 @@
-<h2>Profil</h2>
-<div>
-    Prénom: {{ user?.firstname }} <br>
-    Nom: {{ user?.lastname }} <br>
-    Email: {{ user?.email }} <br>
-    Image: <img [src]=" user?.imageUrl" alt="">
-</div>
-<button mat-raised-button color="primary" (click)="onModify()">Modifier mon profil</button>
-<p class="text-danger" *ngIf="errorMsg">{{ errorMsg }}</p>
+<div class="profile">
+    <h1>Bienvenue sur votre profil<span class="name">&ensp;{{ user?.firstname }}</span></h1>
+    <h2>Vos informations:</h2>
+    <div class="allProfile">
+
+        <div class="txtProfile">
+            <p>
+                <span class="infos">Prénom: </span>{{ user?.firstname }}
+            </p>
+            <p>
+                <span class="infos">Nom: </span>{{ user?.lastname }}
+            </p>
+            <p class="email">
+                <span class="infos">Email: </span>{{ user?.email }}
+            </p>
+            <button mat-raised-button color="primary" (click)="onModify()">Modifier mon profil</button>
+        </div>
+        <div class="imgProfile">
+            <span class="infos">Image: </span><img [src]=" user?.imageUrl" alt="Photo de profil de {{ user?.firstname }} {{ user?.lastname }}">
+        </div>
+    </div>
 
 
-<div>
+    
