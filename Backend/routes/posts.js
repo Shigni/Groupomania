@@ -27,8 +27,8 @@ router.post('/timeline/:post_id/comment', auth, commentCtrl.createComment);
 // Route de suppression d'un commentaire
 router.delete('/timeline/:post_id/comment/:comment_id', auth, commentCtrl.deleteComment); 
 
-router.get('/messages/', auth, multerMedias, postCtrl.getPostsMessages);
+/*.get('/messages/', auth, multerMedias, postCtrl.getPostsMessages);
 // Route récupération de tous les Posts
-router.get('/medias/', auth, multerMedias, postCtrl.getPostsMedias);
+router.get('/medias/', auth, multerMedias, postCtrl.getPostsMedias);*/
 
 module.exports = router;

@@ -92,7 +92,7 @@ exports.getPosts = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-exports.getPostsMessages = (req, res, next) => {
+/*exports.getPostsMessages = (req, res, next) => {
     // Recherche de tous les messsages et triage de ces derniers du plus récent au plus ancien
     Post.findAll({
         include: { all: true, nested: true }, where:
@@ -115,6 +115,6 @@ exports.getPostsMedias = (req, res, next) => {
     })
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
-};
+};*/
 
 

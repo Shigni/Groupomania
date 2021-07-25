@@ -9,7 +9,6 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-//import { HomeComponent } from './home/home.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ProfileUpdateComponent, DeleteAccountDialog } from './profile-update/profile-update.component';
 import { TimelineComponent, PostMessageDialog, PostMediaDialog } from './timeline/timeline.component';
@@ -19,11 +18,9 @@ import {DemoMaterialModule} from './material-module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {AutosizeModule} from 'ngx-autosize';
-
 import {MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule} from '@angular/material/form-field';
 import { SinglePostComponent } from './single-post/single-post.component';
-import { MediasComponent } from './medias/medias.component';
-import { MessagesComponent } from './messages/messages.component';
+
 
 
 
@@ -33,15 +30,12 @@ import { MessagesComponent } from './messages/messages.component';
     SignupComponent,
     LoginComponent,
     UserProfileComponent,
-    //HomeComponent,
     ProfileUpdateComponent,
     TimelineComponent,
     PostMessageDialog,
     PostMediaDialog,
     SinglePostComponent,
-    DeleteAccountDialog,
-    MediasComponent,
-    MessagesComponent
+    DeleteAccountDialog,   
   ],
   imports: [
     BrowserModule,
