@@ -45,7 +45,6 @@ export class ProfileUpdateComponent implements OnInit {
     public dialog: MatDialog,
     private formBuilder: FormBuilder) { }
 
-  // Récupération des données user + création des forms
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
@@ -62,13 +61,11 @@ export class ProfileUpdateComponent implements OnInit {
     );
   }
 
-  // Fonction ouverture suppression de compte
   openDeleteDialog() {
     const dialogRef = this.dialog.open(DeleteAccountDialog, { restoreFocus: false });
     dialogRef.afterClosed().subscribe(() => this.menuTrigger.focus());
   }
 
-  // Création du FormGroup des modifications du profil
   initModifyForm(user: User) {
     this.updateForm = this.formBuilder.group({
       firstname: [this.user.firstname, Validators.required],
@@ -78,7 +75,6 @@ export class ProfileUpdateComponent implements OnInit {
     });
   }
 
-    // Création du FormGroup pour la modification du mot de passe
   initModifyPassword(user: User) {
     this.passwordForm = this.formBuilder.group({
       password: ['', [Validators.required]],
@@ -86,7 +82,6 @@ export class ProfileUpdateComponent implements OnInit {
     }, { validator: this.checkPasswords });
   }
 
-  // Fonction pour vérifier si les mots de passes sont identiques
   checkPasswords(group: FormGroup) {
     let pass = group.controls.password.value;
     let confirmPass = group.controls.confirmPassword.value;
@@ -94,16 +89,14 @@ export class ProfileUpdateComponent implements OnInit {
     return pass === confirmPass ? null : { notSame: true }
   }
 
-  // Erreur si le mail est vide
   getErrorMessage() {
     if (this.email.hasError('required')) {
-      return 'Ce champs doit être renseigné';
+      return 'veuillez remplir ce champ';
     }
 
-    return this.email.hasError('email') ? 'Votre email est invalide' : '';
+    return this.email.hasError('email') ? 'email invalide' : '';
   }
 
-  // modification du profil
   onUpdate() {
     this.loading = true;
     const updateUser = new User();
@@ -127,7 +120,6 @@ export class ProfileUpdateComponent implements OnInit {
     );
   }
 
-  // Modification mot de passe
   onUpdatePassword() {
     const updatePassword = new User();
     updatePassword.password = this.passwordForm.get('password').value;
@@ -147,7 +139,6 @@ export class ProfileUpdateComponent implements OnInit {
     );
   }
 
-  // Preview image
   onFileAdded(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.updateForm.get('image').setValue(file);
@@ -159,7 +150,6 @@ export class ProfileUpdateComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  // retour au profil
   goBackProfile() {
     this.router.navigate(['/user-profile']);
   }
@@ -184,7 +174,6 @@ export class DeleteAccountDialog {
     private router: Router,
     public dialog: MatDialog) { }
 
-  // Récupération des infos utilisateur
   ngOnInit() {
     this.user_id = this.auth.getUserId();
     this.route.params.subscribe(
@@ -199,7 +188,6 @@ export class DeleteAccountDialog {
     );
   }
 
-  // supression d'un user
   onDelete() {
     this.loading = true;
     this.auth.deleteUser(this.user.user_id).then(

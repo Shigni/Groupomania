@@ -1,6 +1,6 @@
 <div class="profileUpdate">
   <div class="head">
-    <h1>Modifiez votre profil</h1>
+    <h1>Ici vous pouvez modifier votre profil</h1>
     <button mat-button (click)="goBackProfile()">
       <mat-icon>arrow_back</mat-icon>
     </button>
@@ -42,7 +42,7 @@
   </form>
   <button mat-raised-button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
   <div class="security">
-    <h1 class="head">Modification du mot de passe</h1>
+    <h1 class="head">Ici vous pouvez modifier votre mot de passe</h1>
     <form [formGroup]="passwordForm" class="password">
       <h2 class="infos">Nouveau mot de passe</h2>
       <div class="inputField">
@@ -68,6 +68,6 @@
         passe</button>
     </form>
     <h2 class="infos" id="deleteAccount">Supprimer votre compte</h2>
-    <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer votre profil</button>
+    <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer mon compte</button>
   </div>
 </div>

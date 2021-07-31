@@ -27,4 +27,4 @@ router.post('/timeline/:post_id/comment', auth, commentCtrl.createComment);
 // Route de suppression d'un commentaire
 router.delete('/timeline/:post_id/comment/:comment_id', auth, commentCtrl.deleteComment); 
 
-module.exports = router;
+module.exports = router; 

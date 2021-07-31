@@ -21,7 +21,7 @@ h1 {
 h2 {
     position: relative;
 }
-h2::after {
+/*h2::after {
     content: "";
     background-color: #fd2d01;
     width: 40px;
@@ -29,7 +29,7 @@ h2::after {
     position: absolute;
     bottom: 0;
     left: 0;
-}
+}*/
 .allProfile {
     display: flex;
     flex-direction: row;
@@ -55,9 +55,8 @@ h2::after {
     .imgProfile {
         display: flex;
         img {
-            width: 200px;
-            height: 200px;
-            border-radius: 100px;
+            width: 150px;
+            height: 150px;
             object-fit: cover;
         }
     }
@@ -109,14 +108,6 @@ h2::after {
     }
 }
 
-@media only screen and (max-width: 768px) {
-    /*.allProfile{
-        flex-direction: column;
-    }*/
-}
-
-
-
 @media only screen and (max-width: 575px) {
     h1 {
         display: block;
@@ -129,7 +120,6 @@ h2::after {
             img {
                 width: 80px;
                 height: 80px;
-                border-radius: 40px;
                 object-fit: cover;
             }
         }

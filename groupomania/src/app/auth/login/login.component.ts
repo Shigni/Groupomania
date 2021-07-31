@@ -1,49 +1,3 @@
-/*import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
-
-@Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
-})
-export class LoginComponent implements OnInit {
-
-  loginForm: FormGroup;
-  loading: boolean;
-  errorMsg: string;
-
-  constructor(private formBuilder: FormBuilder,
-              private auth: AuthService,
-              private router: Router) { }
-
-  ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      password: [null, Validators.required]
-    });
-  }
-
-  onLogin() {
-    this.loading = true;
-    const email = this.loginForm.get('email').value;
-    const password = this.loginForm.get('password').value;
-    this.auth.loginUser(email, password).then(
-      () => {
-        this.loading = false;
-        this.router.navigate(['/timeline']);
-      }
-    ).catch(
-      (error) => {
-        this.loading = false;
-        this.errorMsg = error.message;
-      }
-    );
-  }
-
-}*/
-
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -66,7 +20,6 @@ export class LoginComponent implements OnInit {
     private auth: AuthService,
     private router: Router) { }
 
-  // Création du FormGroup de login
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
@@ -74,7 +27,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // Erreur si le champs du mail est vide
   getErrorMessage() {
     if (this.email.hasError('required')) {
       return 'Ce champs ne doit pas être vide';
@@ -82,8 +34,6 @@ export class LoginComponent implements OnInit {
 
     return this.email.hasError('email') ? 'Veuillez entrer un mail valide' : '';
   }
-
-  // Connexion de l'utilisateur
   onLogin() {
     this.loading = true;
     const email = this.loginForm.get('email').value;
@@ -100,5 +50,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
 }

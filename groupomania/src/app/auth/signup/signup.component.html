@@ -1,4 +1,4 @@
-<h1>Bienvenue sur le réseau social d'entreprise de Groupomania !</h1>
+<h1>Commencez par vous inscrire !</h1>
 <div class="container">
     <div class="center">
         <mat-card>
@@ -6,10 +6,9 @@
             <mat-spinner *ngIf="loading"></mat-spinner>
             <form [formGroup]="signupForm" *ngIf="!loading" class="inputField">
                 <div class="form-group">
-                    <mat-card class="login">
-                        <p>Vous possédez déjà un compte ?</p>
-                        <a mat-raised-button routerLink="/login">Connectez-vous !</a>
-                    </mat-card>
+
+                    <a mat-raised-button routerLink="/login">Page de connexion</a>
+
                     <div class="txtProfile">
                         <p class="infos">Votre prénom:</p>
                         <mat-form-field appearance="fill">
@@ -28,8 +27,8 @@
                         <p class="infos">Votre mail:</p>
                         <mat-form-field appearance="fill">
                             <mat-label>Mail</mat-label>
-                            <input matInput [formControl]="email" type="email"
-                                class="form-control" id="email" formControlName="email" required>
+                            <input matInput [formControl]="email" type="email" class="form-control" id="email"
+                                formControlName="email" required>
                             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                         </mat-form-field>
                     </div>
@@ -68,7 +67,7 @@
 
             <button mat-raised-button [disabled]="signupForm.invalid || passwordForm.invalid"
                 (click)="onSignup()">S'inscrire</button>
-                <p class="pwdInvalid" *ngIf="errorMsg">{{ errorMsg }}</p>
+            <p class="pwdInvalid" *ngIf="errorMsg">{{ errorMsg }}</p>
         </mat-card>
     </div>
 </div>

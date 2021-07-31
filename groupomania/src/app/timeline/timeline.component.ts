@@ -109,7 +109,6 @@ export class TimelineComponent implements OnInit {
     ).catch(
       (error) => {
         this.loading = false;
-        //this.errorMessage = error.message;
         console.error(error);
       }
     );
