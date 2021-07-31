@@ -2,19 +2,21 @@
   <mat-card class="example-card">
     <mat-card-header>
 
-      <img mat-card-avatar class="example-header-image" [src]="post?.user?.imageUrl" alt="Photo de profil de {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
+      <img mat-card-avatar class="example-header-image" [src]="post?.user?.imageUrl"
+        alt="Photo de profil de {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
       <mat-card-title>{{ post?.user?.firstname }} {{ post?.user?.lastname }}</mat-card-title>
 
     </mat-card-header>
     <mat-card-content>
       <h1>{{ post?.title }}</h1>
 
-      <img mat-card-image *ngIf="post.mediaUrl != null" [src]="post?.mediaUrl" alt="Photo publiée par {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
+      <img mat-card-image *ngIf="post.mediaUrl != null" [src]="post?.mediaUrl"
+        alt="Photo publiée par {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
       <div>
-      <p class="text">
-        {{ post?.content }}
-      </p>
-    </div>
+        <p class="text">
+          {{ post?.content }}
+        </p>
+      </div>
     </mat-card-content>
     <mat-card-actions>
       <div class="infoPost">

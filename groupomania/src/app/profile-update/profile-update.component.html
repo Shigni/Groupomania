@@ -1,4 +1,3 @@
-
 <div class="profileUpdate">
   <div class="head">
     <h1>Modifiez votre profil</h1>
@@ -29,15 +28,15 @@
           <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
       </div>
-      <div class="imgProfile">
-          <p><span class="infos">Image: </span></p>
-          <div class="imgUpdate">
-            <img [src]=" user.imageUrl" alt="Photo de profil de {{ user?.firstname }} {{ user?.lastname }}"
-              *ngIf="!imagePreview">
-            <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 200px;display:block;margin-top:10px">
-            <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
-            <button mat-raised-button color="primary" (click)="imageInput.click()">Ajouter une image</button>
-          </div>
+      <div class="profileImage">
+        <p><span class="infos">Image: </span></p>
+        <div class="imageUpdate">
+          <img [src]=" user.imageUrl" alt="Photo de profil de {{ user?.firstname }} {{ user?.lastname }}"
+            *ngIf="!imagePreview">
+          <img [src]="imagePreview" *ngIf="imagePreview" style="max-height: 200px;display:block;margin-top:10px">
+          <input type="file" accept="image/*" #imageInput (change)="onFileAdded($event)">
+          <button mat-raised-button color="primary" (click)="imageInput.click()">Ajouter une image</button>
+        </div>
       </div>
     </div>
   </form>
@@ -72,4 +71,3 @@
     <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer votre profil</button>
   </div>
 </div>
-

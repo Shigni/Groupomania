@@ -30,6 +30,32 @@
     margin-right: 10px;
   }
 }
+.more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: -5px;
+  width: 100%;
+  margin: auto;
+  background-image: -webkit-linear-gradient(-90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);
+  background-image: -moz-linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);
+  background-position: 50% 50%;
+  -webkit-background-origin: padding-box;
+  background-origin: padding-box;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
+  -webkit-background-size: auto auto;
+  background-size: auto auto;
+  p {
+    margin: 0;
+  }
+  .moreBtn {
+    cursor: pointer;
+  }
+}
 
 .mat-card-content {
   margin-left: 4px;
@@ -86,32 +112,6 @@
 
 .hidden {
   position: relative;
-}
-.more {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  position: absolute;
-  bottom: 0;
-  left: -5px;
-  width: 100%;
-  margin: auto;
-  background-image: -webkit-linear-gradient(-90deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);
-  background-image: -moz-linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0) 0, rgba(255, 255, 255, 1) 100%);
-  background-position: 50% 50%;
-  -webkit-background-origin: padding-box;
-  background-origin: padding-box;
-  -webkit-background-clip: border-box;
-  background-clip: border-box;
-  -webkit-background-size: auto auto;
-  background-size: auto auto;
-  p {
-    margin: 0;
-  }
-  .moreBtn {
-    cursor: pointer;
-  }
 }
 
 .empty {
