@@ -10,9 +10,11 @@
       <h1>{{ post?.title }}</h1>
 
       <img mat-card-image *ngIf="post.mediaUrl != null" [src]="post?.mediaUrl" alt="Photo publiée par {{ post?.user?.firstname }} {{ post?.user?.lastname }}">
+      <div>
       <p class="text">
         {{ post?.content }}
       </p>
+    </div>
     </mat-card-content>
     <mat-card-actions>
       <div class="infoPost">

@@ -7,15 +7,13 @@ const mysql = require('mysql2');
 const rateLimit = require("express-rate-limit");
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100 // limit each IP to 100 requests per windowMs
+    max: 1000 // limit each IP to 1000 requests per windowMs
   });
 require('dotenv').config();
 
 const usersRoutes = require('./routes/users');
 const postRoutes = require('./routes/posts');
 
-
-//
 const sequelize = require('./utils/database');
 const User = require('./models/User');
 const Post = require('./models/post');
@@ -24,8 +22,6 @@ const Like = require('./models/like');
 
 
 sequelize.sync();
-
-//
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -38,8 +34,6 @@ app.use(helmet());
 app.use(limiter);
 
 app.use(bodyParser.json());
-
-
 
 app.use('/api/users', usersRoutes);
 

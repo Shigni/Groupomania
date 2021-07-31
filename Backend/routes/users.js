@@ -20,7 +20,7 @@ router.put('/user-profile/:user_id', auth, multer, userCtrl.update);
 router.delete('/user-profile/:user_id', auth, multer, userCtrl.delete);
 // Route récupération d'un utilisateur
 router.get('/user-profile/:user_id', auth, multer, userCtrl.getUser);
-// Route récupération de tous les utilisateurs
-//router.get('/', auth, multer, userCtrl.getUsers);
+// Route de modification du mot de passe
+router.put('/user-profile/:user_id/password', checkPassword, auth, multer, userCtrl.updatePassword);
 
 module.exports = router;

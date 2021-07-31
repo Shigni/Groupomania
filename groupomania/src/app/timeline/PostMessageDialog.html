@@ -4,7 +4,7 @@
       <label for="title">Titre</label>
       <input type="text" class="form-control" id="title" formControlName="title">
       <label for="content">Message</label>
-      <input type="text" class="form-control" id="content" formControlName="content">
+      <input type="text" #message maxlength="256" class="form-control" id="content" formControlName="content">
     </div>
     <button mat-raised-button color="primary" (click)="onMessage()">Publier</button>
   </form>

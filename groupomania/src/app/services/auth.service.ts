@@ -14,7 +14,7 @@ export class AuthService {
   private user_id: string;
 
   constructor(private http: HttpClient,
-              private router: Router) { }
+    private router: Router) { }
 
   createUser(email: string, password: string, firstname: string, lastname: string) {
     return new Promise((resolve, reject) => {
@@ -102,20 +102,20 @@ export class AuthService {
     });
   }
 
-    // Service de mise à jour du mot de passe
-    updateUserPassword(user_id: string, user: User) {
-      return new Promise((resolve, reject) => {
-        this.http.put('http://localhost:3000/api/users/user-profile/' + user_id + '/password', user).subscribe(
-          (response: { message: string }) => {
-            resolve(response);
-          },
-          (error) => {
-            reject(error);
-          }
-        );
-      })
-    }
-    
+
+  updateUserPassword(user_id: string, user: User) {
+    return new Promise((resolve, reject) => {
+      this.http.put('http://localhost:3000/api/users/user-profile/' + user_id + '/password', user).subscribe(
+        (response: { message: string }) => {
+          resolve(response);
+        },
+        (error) => {
+          reject(error);
+        }
+      );
+    })
+  }
+
   deleteUser(user_id: string) {
     return new Promise((resolve, reject) => {
       this.http.delete('http://localhost:3000/api/users/user-profile/' + user_id).subscribe(

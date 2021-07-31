@@ -12,12 +12,12 @@ Post.belongsTo(User, { foreignKey: 'user_id' });
 
 // Créer une media
 exports.createPostMedia = (req, res, next) => {
-    // Récupération des informations du formulaire de création de media
+    
     const postObject = JSON.parse(req.body.post);
-    // Ajout des valeurs like et dislike par défaut = 0
+    
     postObject.likes = 0;
     postObject.dislikes = 0;
-    // Création dans la base de donnée de la media avec l'image associée au mediaObject
+   
     const post = new Post({
         ...postObject,
         mediaUrl: `${req.protocol}://${req.get('host')}/images/medias/${req.file.filename}`
@@ -29,12 +29,12 @@ exports.createPostMedia = (req, res, next) => {
 
 // Créer un message
 exports.createPostMessage = (req, res, next) => {
-    // Récupération des informations du formulaire de création de message
+    
     const postObject = req.body;
-    // Ajout des valeurs like et dislike par défaut = 0
+    
     postObject.likes = 0;
     postObject.dislikes = 0;
-    // Création dans la base de donnée du message
+
     const post = new Post({
         ...postObject
     });
@@ -47,15 +47,15 @@ exports.createPostMessage = (req, res, next) => {
 
 // Supprimer un media
 exports.deletePost = (req, res, next) => {
-    // Recherche de la media grâce à son ID
+    
     Post.findOne({ where: { post_id: req.params.post_id } })
         .then(post => {
             const media = post.mediaUrl;
             if (post.mediaUrl) {
-                // Suppression de l'image associée dans la base de donnée
+                
                 const filename = post.mediaUrl.split('/images/medias/')[1];
                 fs.unlink(`images/medias/${filename}`, () => {
-                    // Suppression de la media dans la base de donnée
+                    
                     Post.destroy({ where: { post_id: req.params.post_id } })
                         .then(() => res.status(200).json({ message: 'Post supprimée !' }))
                         .catch(error => res.status(400).json({ error }));
@@ -91,30 +91,5 @@ exports.getPosts = (req, res, next) => {
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({ error }));
 };
-
-/*exports.getPostsMessages = (req, res, next) => {
-    // Recherche de tous les messsages et triage de ces derniers du plus récent au plus ancien
-    Post.findAll({
-        include: { all: true, nested: true }, where:
-            { mediaUrl: null }, order: [
-                ['post_id', 'DESC']
-            ]
-    })
-        .then(posts => res.status(200).json(posts))
-        .catch(error => res.status(400).json({ error }));
-};
-
-// Affichage de tous les medias
-exports.getPostsMedias = (req, res, next) => {
-    // Recherche de tous les medias et triage de ces derniers du plus récent au plus ancien
-    Post.findAll({
-        include: { all: true, nested: true }, where:
-            { content: null }, order: [
-                ['post_id', 'DESC']
-            ]
-    })
-        .then(posts => res.status(200).json(posts))
-        .catch(error => res.status(400).json({ error }));
-};*/
 
 

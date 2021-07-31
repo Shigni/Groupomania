@@ -28,7 +28,7 @@
                         <p class="infos">Votre mail:</p>
                         <mat-form-field appearance="fill">
                             <mat-label>Mail</mat-label>
-                            <input matInput placeholder="johndoe@example.com" [formControl]="email" type="email"
+                            <input matInput [formControl]="email" type="email"
                                 class="form-control" id="email" formControlName="email" required>
                             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
                         </mat-form-field>

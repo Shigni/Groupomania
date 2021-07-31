@@ -5,7 +5,8 @@ const multerMedias = require('multer');
 const MIME_TYPES = {
     'image/jpg': 'jpg',
     'image/jpeg': 'jpg',
-    'image/png': 'png'
+    'image/png': 'png',
+    'image/gif': 'gif'
 };
 
 // Image à stocker
@@ -14,7 +15,7 @@ const storage = multerMedias.diskStorage({
     destination: (req, file, callback) => {
         callback(null, 'images/medias')
     },
-    // Modification du nom des images reçu lors de l'ajout d'une sauce
+    // Modification du nom des images reçu lors de l'ajout d'une image
     filename: (req, file, cb) => {
         const name = file.originalname.split(' ').join('_');
         const extension = MIME_TYPES[file.mimetype];

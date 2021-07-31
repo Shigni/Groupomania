@@ -51,18 +51,7 @@ export class PostService {
       }
     );
   }
-  /*getPost(post_id: string) {
-    this.http.get('http://localhost:3000/api/post/timeline', post_id).subscribe(
-      (posts: Post[]) => {
-        this.post$.next(posts);
-      },
-      (error) => {
-        this.post$.next([]);
-        console.error(error);
-      }
-    );
-  }*/
-
+ 
   getPostById(post_id: string) {
     return new Promise((resolve, reject) => {
       this.http.get('http://localhost:3000/api/post/timeline/' + post_id).subscribe(
