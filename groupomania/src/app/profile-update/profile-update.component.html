@@ -1,6 +1,6 @@
 <div class="profileUpdate">
   <div class="head">
-    <h1>Ici vous pouvez modifier votre profil</h1>
+    <h1>modifier votre profil</h1>
     <button mat-button (click)="goBackProfile()">
       <mat-icon>arrow_back</mat-icon>
     </button>
@@ -38,11 +38,11 @@
           <button mat-raised-button color="primary" (click)="imageInput.click()">Ajouter une image</button>
         </div>
       </div>
-    </div>
+    
+  <button mat-raised-button [disabled]="updateForm.invalid" (click)="onUpdate()" class="profileEditBtn">Éditer mon profil</button></div>
   </form>
-  <button mat-raised-button [disabled]="updateForm.invalid" (click)="onUpdate()">Éditer mon profil</button>
   <div class="security">
-    <h1 class="head">Ici vous pouvez modifier votre mot de passe</h1>
+    <h1 class="head">modifier votre mot de passe</h1>
     <form [formGroup]="passwordForm" class="password">
       <h2 class="infos">Nouveau mot de passe</h2>
       <div class="inputField">
@@ -66,8 +66,8 @@
       <p class="pwdInvalid" *ngIf="errorMsg">{{ errorMsg }}</p>
       <button mat-raised-button [disabled]="passwordForm.invalid" (click)="onUpdatePassword()">Éditer mon mot de
         passe</button>
-    </form>
+    
     <h2 class="infos" id="deleteAccount">Supprimer votre compte</h2>
-    <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer mon compte</button>
+    <button mat-raised-button color="warn" (click)="openDeleteDialog()">Supprimer mon compte</button></form>
   </div>
 </div>

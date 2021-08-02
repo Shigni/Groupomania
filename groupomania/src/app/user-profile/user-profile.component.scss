@@ -12,27 +12,19 @@ h1 {
     width: 100%;
     max-width: 800px;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     p{
         font-size: 16px;
     }
     
 }
 
-h2 {
-    position: relative;
-}
-/*h2::after {
-    content: "";
-    background-color: #fd2d01;
-    width: 40px;
-    height: 3px;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-}*/
 .allProfile {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     .infos {
@@ -54,6 +46,8 @@ h2 {
 
     .imgProfile {
         display: flex;
+        flex-direction: column;
+        margin-top: 10px;
         img {
             width: 150px;
             height: 150px;

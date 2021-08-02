@@ -12,6 +12,16 @@ p {
     margin: auto;
 }
 
+.password {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profileEditBtn {
+    margin-top: 10px;
+}
+
 .head {
     position: relative;
     display: flex;
@@ -27,6 +37,7 @@ p {
 
 .profileImage {
     display: flex;
+    flex-direction: column;
     img {
         width: 150px;
         height: 150px;
@@ -44,8 +55,7 @@ p {
 
 .form-group {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
 }
 
@@ -73,7 +83,6 @@ p {
         img {
             width: 80px;
             height: 80px;
-            border-radius: 100px;
             object-fit: cover;
             margin-bottom: 20px;
         }
@@ -81,18 +90,11 @@ p {
 }
 
 @media only screen and (max-width: 450px) {
-    .form-group {
-        align-items: baseline;
-        flex-direction: column;
-    }
     .inputField {
         display: flex;
         flex-direction: column;
         .confirm{
             margin: 0;
         }
-    }
-    .mat-form-field{
-        width: 100%;
-    }
+    }  
 }

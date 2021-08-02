@@ -36,30 +36,18 @@ input.example-right-align {
   -moz-appearance: textfield;
 }
 
+.loginLink{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 15px;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  .login {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin-bottom: 20px;
-    a{
-      text-decoration: none;
-      color: inherit;
-    }
-    img {
-      width: 200px;
-      height: 102px;
-      margin-bottom: 20px;
-    }
-    a {
-      align-self: center;
-    }
-  }
 }
 
 .inputField {
