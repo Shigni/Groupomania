@@ -1,4 +1,9 @@
-Projet 7 : Groupomania
+7/ Créer un réseau social d’entreprise :
+Html/css/js/Angular/Mysql - pas de maquettes - Back-end / Front-end
+- Personnaliser le contenu envoyé à un client web.
+- Authentifier un utilisateur et maintenir sa session .
+- Gérer un stockage de données à l’aide de SQL.
+- Implémenter un stockage de données sécurisé en utilisant SQL.
 
 Clonez le repository,
 Créez un fichier ".env" dans le dossier backend,
